@@ -17,7 +17,7 @@ public class Appel {
 		int max = 9;
 		int min = 0;
 		Random random = new Random();
-		this.numero = "0" + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min);
+		this.numero = "0" + (random.nextInt(max - min + 2) + min +1) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min);
 		this.identifiant = (random.nextInt(max - min + 1) + min) + this.numero + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min);
 		this.heure = (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min) + "h" + (random.nextInt(max - min + 1) + min) + (random.nextInt(max - min + 1) + min);
 		this.duree = "0" + (random.nextInt(max - 6 - min + 1) + min) + (random.nextInt(max - min + 1) + min);
@@ -43,6 +43,16 @@ public class Appel {
 		}
 		this.texte = "Texte par défaut";
 		
+	}
+	
+	public Appel(String id,  String num, String heure, String status, String duree, String operateur, String texte) {
+		this.identifiant = id;
+		this.numero = num;
+		this.heure = heure;
+		this.status = status;
+		this.duree = duree;
+		this.operateur = operateur;
+		this.texte = texte;
 	}
 
 
