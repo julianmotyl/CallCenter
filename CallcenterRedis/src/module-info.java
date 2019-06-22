@@ -1,0 +1,3 @@
+module CallcenterRedis {
+	requires jedis;
+}
