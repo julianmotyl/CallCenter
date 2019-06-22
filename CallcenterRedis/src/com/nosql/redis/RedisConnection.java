@@ -117,8 +117,22 @@ public class RedisConnection {
 	}
 	
 	public static void affecterOperateur(Jedis jedis) {
-		
-	}
+		System.out.println("A quel appel voulez vous affecter un opérateur ? \n Id appel ?")
+                Scanner sc = new Scanner(System.in);
+                String id = sc.nextLine();
+                System.out.println("A quel opérateur voulez vous l'affecter ?);
+                String newOperateur = sc.nextLine();
+                int réponse = jedis hsetnx("Appel:" + id, "operateur", newOperateur);
+                if (réponse == 1) {
+                   Appel appel = jedis.hget("Appel:" + id);
+                   System.out.println("L'appel àété mis a jour \n  Voici l'appel :");
+                   appel.show();
+                } else {
+                   System.out.println("L'appel est déjà affecté");
+                appel.operateur = newOperateur ;
+
+                
+	} or
 	
 	public static void appel2Redis(Jedis jedis, Appel appel) {
 		//L'appel est mis dans une hashMap pour pouvoir l'inserer dans la base avec la commande HMSET
