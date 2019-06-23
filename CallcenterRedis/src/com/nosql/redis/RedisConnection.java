@@ -9,6 +9,7 @@ import java.lang.System;
 
 import redis.clients.jedis.Jedis;
 
+
 public class RedisConnection {
 
 	public static void main(String[] args) throws Exception{
@@ -60,6 +61,7 @@ public class RedisConnection {
 	
 	public static void menu(Jedis jedis) {
 		boolean quitter = false;
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 
 		do {
@@ -97,6 +99,7 @@ public class RedisConnection {
 	}
 	
 	public static void generationAppel(Jedis jedis) {
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
  
 		System.out.println("ID ?");
@@ -120,13 +123,18 @@ public class RedisConnection {
 	
 	public static void affecterOperateur(Jedis jedis) {
 		System.out.println("A quel appel voulez vous affecter un opérateur ? \n Id appel ?");
-                Scanner sc = new Scanner(System.in);
+                @SuppressWarnings("resource")
+				Scanner sc = new Scanner(System.in);
                 String id = sc.nextLine();
                 System.out.println("A quel opérateur voulez vous l'affecter ?");
                 String newOperateur = sc.nextLine();
-                long réponse = jedis.hsetnx("Appel:" + id, "operateur", newOperateur);
+                
+                long réponse = jedis.hsetnx("Appel:" + id, "operateur", newOperateur); // Commande HSETNX, qui renvoie 1 si l'enregistrement à bien été effectué (car le champs operateur n'existait pas) et 0 sinon.
                 if (réponse == 1) {
-                	 Map<String, String> appel =  jedis.hgetAll("Appel:" + id);
+                	 jedis.hset(id, "Status", "En cours"); //Acctualisation du status
+                	 
+                	 //Affichage de l'appel modifié
+                	 Map<String, String> appel = jedis.hgetAll("Appel:" + id);
                 	 Iterator<String> keyIterator = appel.keySet().iterator();
                 	 Iterator<String> valueIterator = appel.values().iterator();
                 	 while (keyIterator.hasNext()) {
