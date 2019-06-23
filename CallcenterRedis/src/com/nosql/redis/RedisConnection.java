@@ -1,6 +1,8 @@
 package com.nosql.redis;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 import java.lang.System;
 
@@ -117,22 +119,25 @@ public class RedisConnection {
 	}
 	
 	public static void affecterOperateur(Jedis jedis) {
-		System.out.println("A quel appel voulez vous affecter un opérateur ? \n Id appel ?")
+		System.out.println("A quel appel voulez vous affecter un opérateur ? \n Id appel ?");
                 Scanner sc = new Scanner(System.in);
                 String id = sc.nextLine();
-                System.out.println("A quel opérateur voulez vous l'affecter ?);
+                System.out.println("A quel opérateur voulez vous l'affecter ?");
                 String newOperateur = sc.nextLine();
-                int réponse = jedis hsetnx("Appel:" + id, "operateur", newOperateur);
+                long réponse = jedis.hsetnx("Appel:" + id, "operateur", newOperateur);
                 if (réponse == 1) {
-                   Appel appel = jedis.hget("Appel:" + id);
-                   System.out.println("L'appel àété mis a jour \n  Voici l'appel :");
-                   appel.show();
+                	 Map<String, String> appel =  jedis.hgetAll("Appel:" + id);
+                	 Iterator<String> keyIterator = appel.keySet().iterator();
+                	 Iterator<String> valueIterator = appel.values().iterator();
+                	 while (keyIterator.hasNext()) {
+                		 System.out.println(keyIterator.next());
+                		 System.out.println(valueIterator.next());
+                	 }
+                     System.out.println("L'appel àété mis a jour \n  Voici l'appel :");
                 } else {
                    System.out.println("L'appel est déjà affecté");
-                appel.operateur = newOperateur ;
-
-                
-	} or
+                	}
+                }
 	
 	public static void appel2Redis(Jedis jedis, Appel appel) {
 		//L'appel est mis dans une hashMap pour pouvoir l'inserer dans la base avec la commande HMSET
